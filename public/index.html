@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="browser.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="initial-data-container">
+        <div class="slidecontainer">
+            <label for="myRange">Difficulty:</label>
+            <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+            <span id="value"></span>
+        </div>
+        <input type="radio" id="x" name="player" value="X">
+        <label for="x">Player will be X</label><br>
+        <input type="radio" id="o" name="player" value="O">
+        <label for="o">Player will be O</label><br>
+
+        <input type="checkbox" name="hints" id="hint-check">
+        <label for="hint-check">View hints while playing?</label>
+        <br>
+        <button type="submit" id="submit-button">Start game</button>
+    </div>
+
+    <div id="tic-tac-toe-container">
+        <div id="tic-tac-toe">
+            <div id="cell_11"></div>
+            <div id="cell_12"></div>
+            <div id="cell_13"></div>
+            <div id="cell_21"></div>
+            <div id="cell_22"></div>
+            <div id="cell_23"></div>
+            <div id="cell_31"></div>
+            <div id="cell_32"></div>
+            <div id="cell_33"></div>
+        </div>
+        <div id="after-game-container" class="display-none">
+            <span id="message-span"></span>
+            <button id="again-button">Again</button>
+        </div>
+    </div>
+
+</body>
+
+</html>
