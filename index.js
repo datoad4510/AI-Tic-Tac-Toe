@@ -52,8 +52,6 @@ app.listen(port, () => {
 
 // console.log(process.env.PATH);
 
-// const CppApp = spawn("tic_tac_toe.out");
-
 (function () {
     var childProcess = require("child_process");
     var oldSpawn = childProcess.spawn;
@@ -66,6 +64,7 @@ app.listen(port, () => {
     childProcess.spawn = mySpawn;
 })();
 
+const CppApp = spawn("tic_tac_toe.out");
 /*
 function getChildScores() {
     const latest = stdoutArray[stdoutArray.length - 1];
