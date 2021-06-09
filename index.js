@@ -50,7 +50,7 @@ app.listen(port, () => {
 
 const spawn = require("child_process").spawn;
 
-const CppApp = spawn("full tic tac toe.exe");
+const CppApp = spawn("tic_tac_toe.out");
 
 function getChildScores() {
     const latest = stdoutArray[stdoutArray.length - 1];
