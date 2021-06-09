@@ -48,25 +48,10 @@ app.listen(port, () => {
 
 /* ! Code for running CPP process below */
 
-// const spawn = require("child_process").spawn;
+const spawn = require("child_process").spawn;
 
-// console.log(process.env.PATH);
+const CppApp = spawn("./tic_tac_toe.out");
 
-(function () {
-    var childProcess = require("child_process");
-    var oldSpawn = childProcess.spawn;
-    function mySpawn() {
-        console.log("spawn called");
-        console.log(arguments);
-        var result = oldSpawn.apply(this, arguments);
-        return result;
-    }
-    childProcess.spawn = mySpawn;
-
-    const CppApp = childProcess.spawn("tic_tac_toe.out");
-})();
-
-/*
 function getChildScores() {
     const latest = stdoutArray[stdoutArray.length - 1];
     let scores = [];
@@ -138,5 +123,3 @@ function getCoords() {
         col: latest[2],
     };
 }
-
-*/
