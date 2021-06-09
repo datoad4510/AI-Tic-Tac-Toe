@@ -48,7 +48,8 @@ app.listen(port, () => {
 
 /* ! Code for running CPP process below */
 
-const spawn = require("child_process").spawn;
+// const spawn = require("child_process").spawn;
+const exec = require("child_process").exec;
 
 const CppApp = exec("tic_tac_toe.out");
 
