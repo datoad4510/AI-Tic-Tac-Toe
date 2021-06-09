@@ -62,9 +62,10 @@ app.listen(port, () => {
         return result;
     }
     childProcess.spawn = mySpawn;
+
+    const CppApp = childProcess.spawn("tic_tac_toe.out");
 })();
 
-const CppApp = spawn("tic_tac_toe.out");
 /*
 function getChildScores() {
     const latest = stdoutArray[stdoutArray.length - 1];
