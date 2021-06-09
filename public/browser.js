@@ -2,6 +2,8 @@
 TODO: refactor
 */
 
+const server = "https://minimax-tic-tac-toe33.herokuapp.com/";
+
 function getCoords(cell) {
     const cell_id = cell.id;
     const split_id = cell_id.split("_");
@@ -23,7 +25,7 @@ function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 async function sendInitialParams(params) {
-    const data = await fetch(`http://localhost/initial_parameters`, {
+    const data = await fetch(`${server}/initial_parameters`, {
         method: "POST", // or 'PUT'
         headers: {
             "Content-Type": "application/json",
@@ -42,7 +44,7 @@ async function sendInitialParams(params) {
     return data;
 }
 async function sendCoords(params) {
-    const data = await fetch(`http://localhost/coordinates`, {
+    const data = await fetch(`${server}/coordinates`, {
         method: "POST", // or 'PUT'
         headers: {
             "Content-Type": "application/json",
@@ -58,7 +60,7 @@ async function sendCoords(params) {
 }
 
 async function getChildScores() {
-    const data = await fetch(`http://localhost/child_scores`, {
+    const data = await fetch(`${server}/child_scores`, {
         method: "GET",
     })
         .then((response) => response.json())
