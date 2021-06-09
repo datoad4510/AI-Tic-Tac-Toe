@@ -8,6 +8,12 @@ app.use(bodyParser.json());
 app.use(express.static("public"));
 app.use(cors());
 
+const spawn = require("child_process").spawn;
+let CppApp;
+
+// just keep this running
+// const dummy = spawn("dummy.exe");
+
 // this array will hold the output of cpp line by line,
 // with each line split with spaces and trimmed
 let stdoutArray = [];
@@ -17,9 +23,38 @@ function sleep(ms) {
 }
 
 app.post("/initial_parameters", (req, res) => {
+    console.log("starting child");
+    CppApp = spawn("./tic_tac_toe.out");
+    // CppApp = spawn("full tic tac toe.exe");
+    // pipe std output of executable to the std output of the main process of nodejs
+    CppApp.stdout.pipe(process.stdout);
+    // end process when stdin descriptor closes
+    // without this, input will continue forever
+    // CppApp.stdin.on("close", () => {
+    //     // process.stdin.end();
+    //     console.log(stdoutArray);
+    //     process.exit();
+    // });
+
+    // save stdout of exe file in the array line by line
+    CppApp.stdout.on("data", (chunk) => {
+        let output = chunk.toString().trim();
+
+        output = output.split(" ");
+
+        for (let index = 0; index < output.length; index++) {
+            output[index] = output[index].trim();
+        }
+
+        stdoutArray.push(output);
+
+        console.log(stdoutArray);
+    });
+
     const params = req.body;
     console.log(params);
     fillInitialParams(params.player, params.difficulty);
+
     res.send(`Inserted parameters!`);
 });
 
@@ -38,6 +73,12 @@ app.post("/coordinates", async (req, res) => {
     }
 });
 
+app.get("/kill_process", (req, res) => {
+    CppApp.stdin.pause();
+    CppApp.kill("SIGINT");
+    res.send("killed child");
+});
+
 app.get("/child_scores", (req, res) => {
     res.send(getChildScores());
 });
@@ -47,10 +88,6 @@ app.listen(port, () => {
 });
 
 /* ! Code for running CPP process below */
-
-const spawn = require("child_process").spawn;
-
-const CppApp = spawn("./tic_tac_toe.out");
 
 function getChildScores() {
     const latest = stdoutArray[stdoutArray.length - 1];
@@ -72,32 +109,6 @@ function getChildScores() {
 
     return scores;
 }
-
-// pipe std output of executable to the std output of the main process of nodejs
-CppApp.stdout.pipe(process.stdout);
-
-// end process when stdin descriptor closes
-// without this, input will continue forever
-CppApp.stdin.on("close", () => {
-    // process.stdin.end();
-    console.log(stdoutArray);
-    process.exit();
-});
-
-// save stdout of exe file in the array line by line
-CppApp.stdout.on("data", (chunk) => {
-    let output = chunk.toString().trim();
-
-    output = output.split(" ");
-
-    for (let index = 0; index < output.length; index++) {
-        output[index] = output[index].trim();
-    }
-
-    stdoutArray.push(output);
-
-    console.log(stdoutArray);
-});
 
 // fill out player, difficulty and gamemode if the program is asking for them
 

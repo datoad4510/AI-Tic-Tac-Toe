@@ -3,6 +3,7 @@ TODO: refactor
 */
 
 const server = "https://minimax-tic-tac-toe33.herokuapp.com";
+// const server = "http://localhost:3500";
 
 function getCoords(cell) {
     const cell_id = cell.id;
@@ -71,6 +72,19 @@ async function getChildScores() {
     return data;
 }
 
+async function killProcess() {
+    const data = await fetch(`${server}/kill_process`, {
+        method: "GET",
+    })
+        .then((response) => response.text())
+        .then((text) => {
+            console.log(text);
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+}
+
 function cleanBoard() {
     const children = document.querySelectorAll("#tic-tac-toe > div");
     for (let index = 0; index < children.length; index++) {
@@ -101,7 +115,7 @@ window.onload = (e) => {
     };
 
     const again_button = document.getElementById("again-button");
-    again_button.addEventListener("click", (e) => {
+    again_button.addEventListener("click", async (e) => {
         cleanBoard();
         const after_game_container = document.getElementById(
             "after-game-container"
@@ -111,6 +125,8 @@ window.onload = (e) => {
         tic_tac_toe_container.classList.remove("slide-up-from-bottom");
 
         initial_parameter_container.classList.remove("display-none");
+
+        await killProcess();
     });
 
     const submit = document.getElementById("submit-button");
