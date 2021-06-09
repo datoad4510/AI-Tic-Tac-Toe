@@ -49,14 +49,12 @@ app.listen(port, () => {
 /* ! Code for running CPP process below */
 
 const spawn = require("child_process").spawn;
-// const exec = require("child_process").exec;
 
-
-/*
-console.log(env.PATH);
+console.log(process.env.PATH);
 
 const CppApp = spawn("tic_tac_toe.out");
 
+/*
 function getChildScores() {
     const latest = stdoutArray[stdoutArray.length - 1];
     let scores = [];
