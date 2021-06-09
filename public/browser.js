@@ -2,7 +2,7 @@
 TODO: refactor
 */
 
-const server = "https://minimax-tic-tac-toe33.herokuapp.com/";
+const server = "https://minimax-tic-tac-toe33.herokuapp.com";
 
 function getCoords(cell) {
     const cell_id = cell.id;
