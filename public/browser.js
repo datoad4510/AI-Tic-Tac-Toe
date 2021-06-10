@@ -4,8 +4,8 @@ TODO: child processes not dying on heroku
 TODO: change c++ output so that scores and added coords are on the same line before endl
 */
 
-// const server = "https://minimax-tic-tac-toe33.herokuapp.com";
-const server = "http://localhost:3500";
+const server = "https://minimax-tic-tac-toe33.herokuapp.com";
+// const server = "http://localhost:3500";
 
 function getCoords(cell) {
     const cell_id = cell.id;
