@@ -3,7 +3,7 @@ TODO: refactor
 TODO: handle multiple users
 */
 
-const server = "https://minimax-tic-tac-toe33.herokuapp.com/";
+const server = "https://minimax-tic-tac-toe33.herokuapp.com";
 // const server = "http://localhost:3500";
 
 function getCoords(cell) {
