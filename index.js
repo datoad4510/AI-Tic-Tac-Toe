@@ -82,7 +82,7 @@ app.post("/kill_process", (req, res) => {
     const id = req.body.id;
     const CppApp = processMap[`${id}`].child_process;
     CppApp.stdin.pause();
-    CppApp.kill("SIGINT");
+    CppApp.kill("SIGTERM");
     res.send(`killed child ${id}`);
 });
 
