@@ -1,9 +1,10 @@
 /*
 TODO: refactor
+TODO: handle multiple users
 */
 
-const server = "https://minimax-tic-tac-toe33.herokuapp.com";
-// const server = "http://localhost:3500";
+// const server = "https://minimax-tic-tac-toe33.herokuapp.com";
+const server = "http://localhost:3500";
 
 function getCoords(cell) {
     const cell_id = cell.id;
@@ -21,12 +22,13 @@ let finished = false;
 let player;
 let cpu;
 let hints_enabled = false;
+let process_id = -1;
 
 function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 async function sendInitialParams(params) {
-    const data = await fetch(`${server}/initial_parameters`, {
+    const id = await fetch(`${server}/initial_parameters`, {
         method: "POST", // or 'PUT'
         headers: {
             "Content-Type": "application/json",
@@ -34,23 +36,23 @@ async function sendInitialParams(params) {
         body: JSON.stringify(params),
     })
         .then((response) => response.text())
-        .then((text) => {
-            console.log(`${text}`);
-        })
         .catch((error) => {
             console.error("Error:", error);
         });
+    console.log(id);
     // wait until tic-tac-toe tree is built
     await sleep(1000);
-    return data;
+    return id;
 }
-async function sendCoords(params) {
+async function sendCoords(coords) {
+    console.log("sending coords", coords);
+    // const json_to_send = {}
     const data = await fetch(`${server}/coordinates`, {
         method: "POST", // or 'PUT'
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(params),
+        body: JSON.stringify(coords),
     })
         .then((response) => response.json())
         .catch((error) => {
@@ -62,7 +64,11 @@ async function sendCoords(params) {
 
 async function getChildScores() {
     const data = await fetch(`${server}/child_scores`, {
-        method: "GET",
+        method: "POST", // or 'PUT'
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: process_id }),
     })
         .then((response) => response.json())
         .catch((error) => {
@@ -74,7 +80,11 @@ async function getChildScores() {
 
 async function killProcess() {
     const data = await fetch(`${server}/kill_process`, {
-        method: "GET",
+        method: "POST", // or 'PUT'
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: process_id }),
     })
         .then((response) => response.text())
         .then((text) => {
@@ -139,11 +149,14 @@ window.onload = (e) => {
             player: player,
         };
 
-        await sendInitialParams(initial_parameters);
+        process_id = await sendInitialParams(initial_parameters);
 
         // get first cpu move
         if (player == "O") {
-            const first_coords = await sendCoords({});
+            const first_coords = await sendCoords({
+                coordinates: {},
+                id: process_id,
+            });
             console.log(first_coords);
             addAiMove(first_coords);
             checkWinState();
@@ -164,8 +177,11 @@ window.onload = (e) => {
                 // player = player == "X" ? "O" : "X";
                 const coords = getCoords(cell);
                 const ai_coords = await sendCoords({
-                    row: coords[0],
-                    col: coords[1],
+                    coordinates: {
+                        row: coords[0],
+                        col: coords[1],
+                    },
+                    id: process_id,
                 });
                 addAiMove(ai_coords);
                 console.log(ai_coords);
@@ -211,6 +227,7 @@ async function colorCells() {
 function addAiMove(ai_coords) {
     const suffix = "" + ai_coords.row + ai_coords.col;
     const cell = document.querySelector("#cell_" + suffix);
+    console.log(`adding ${cpu} to `, "" + ai_coords.row + ai_coords.col);
     cell.innerText = cpu;
 }
 
