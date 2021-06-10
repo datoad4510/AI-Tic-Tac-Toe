@@ -100,8 +100,7 @@ struct node
             {
                 if (brd.getVal(i, j) != parent->brd.getVal(i, j))
                 {
-                    cout << "Coordinates " << i + 1 << " " << j + 1 << " "
-                         << endl;
+                    cout << "Coordinates " << i + 1 << " " << j + 1 << " ";
                     return;
                 }
             }
@@ -474,24 +473,6 @@ void playervscpu_optimal(char player)
                 }
             }
         }
-    }
-    if (traversing->brd.win_state == -1 && npc == 'X' || traversing->brd.win_state == 1 && npc == 'O')
-    {
-        cout << "You lose!" << endl;
-
-        return;
-    }
-    if (traversing->brd.win_state == -1 && npc == 'O' || traversing->brd.win_state == 1 && npc == 'X')
-    {
-        cout << "How the hell did you win?!" << endl;
-
-        return;
-    }
-    if (traversing->brd.win_state == 0)
-    {
-        cout << "It's a tie!" << endl;
-
-        return;
     }
     delete_tree(n);
 }
