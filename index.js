@@ -17,8 +17,8 @@ function sleep(ms) {
 }
 
 app.post("/initial_parameters", (req, res) => {
-    const CppApp = spawn("./tic_tac_toe.out");
-    // const CppApp = spawn("full tic tac toe.exe");
+    // const CppApp = spawn("./tic_tac_toe.out");
+    const CppApp = spawn("full tic tac toe.exe");
     console.log(`starting child ${CppApp.pid}`);
 
     // stdoutArray will hold the output of cpp line by line,
@@ -144,7 +144,7 @@ function getCoords(id) {
 
     const latest = stdoutArray[stdoutArray.length - 1];
     // console.log("latest ", latest);
-    // console.log("full", stdoutArray);
+    console.log("full", stdoutArray);
     return {
         row: latest[1],
         col: latest[2],

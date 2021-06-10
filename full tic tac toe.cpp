@@ -83,12 +83,12 @@ struct node
 
     void scoresOfChildren()
     {
-        cout << "\n\nScores ";
+        cout << "Scores ";
         for (int i = 0; i < children.size(); ++i)
         {
             cout << children[i]->score << " ";
         }
-        cout << "\n\n";
+        cout << endl;
     }
 
     // prints at which position the latest sign was added
@@ -100,7 +100,7 @@ struct node
             {
                 if (brd.getVal(i, j) != parent->brd.getVal(i, j))
                 {
-                    cout << "\nCoordinates " << i + 1 << " " << j + 1 << " "
+                    cout << "Coordinates " << i + 1 << " " << j + 1 << " "
                          << endl;
                     return;
                 }
