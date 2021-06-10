@@ -17,8 +17,8 @@ function sleep(ms) {
 }
 
 app.post("/initial_parameters", (req, res) => {
-    const CppApp = spawn("./tic_tac_toe.out");
-    // const CppApp = spawn("full tic tac toe.exe");
+    // const CppApp = spawn("./tic_tac_toe.out");
+    const CppApp = spawn("full tic tac toe.exe");
     console.log(`starting child ${CppApp.pid}`);
 
     // stdoutArray will hold the output of cpp line by line,
@@ -73,7 +73,7 @@ app.post("/coordinates", async (req, res) => {
     } else {
         insertIntoBoard(coords.row, coords.col, id);
         // wait for 50ms for cpp to output cpu's move
-        await sleep(50);
+        await sleep(200);
         res.json(getCoords(id));
     }
 });
